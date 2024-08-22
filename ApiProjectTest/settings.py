@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     "BugManage",
     # 1.注册TWK 应用
     'rest_framework_simplejwt',
+    # 1.注册drf 序列化器的过滤器,添加查询条件
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -66,6 +68,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+    # 2.配置drf使用的过虑器
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend'),
 }
 
 # 3、token配置

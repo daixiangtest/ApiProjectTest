@@ -7,4 +7,5 @@ urlpatterns = [
 ]
 route = routers.SimpleRouter()
 route.register(r'projects', TestProjectView)
+route.register(r'envs', TestEnvView)
 urlpatterns += route.urls
