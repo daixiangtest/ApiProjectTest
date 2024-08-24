@@ -36,7 +36,7 @@ class IterFaceCaseGetSerializer(serializers.ModelSerializer):
     """
     自定义返回测试用例详情
     """
-    interface = IterFaceCaseSerializer()
+    interface = InterFaceSerializer()
 
     class Meta:
         model = IterFaceCase
@@ -47,7 +47,8 @@ class InterFaceResSerializer(serializers.ModelSerializer):
     """
     自定义返回接口信息表进行序列化
     """
-    cases = IterFaceCaseResSerializer(many=True, read_only=True, source='interfacecase_set')
+    # 新增一个序列化器字段 many 展示多条数据，只读，source 指定主键关联的多条数据
+    cases = IterFaceCaseResSerializer(many=True, read_only=True, source='iterfacecase_set')
 
     class Meta:
         model = IterFace
