@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/users/login/', LoginView.as_view(), name='login'),  # 直接引入实现token登录接口
     path('api/users/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # 刷新token
     path('api/users/token/verify/', TokenVerifyView.as_view(), name='token_verify'),  # 校验token
-    re_path(r'^api/testPro/', include('Testproject.urls'))
+    re_path(r'^api/testPro/', include('Testproject.urls')),
+    re_path(r'^api/TestInterFace/', include('TestInterface.urls'))
 
 ]
