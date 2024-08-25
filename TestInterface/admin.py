@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from Scenes.models import ScenesToCase
 from .models import *
 
 
@@ -12,3 +13,4 @@ class TestProjectAdmin(admin.ModelAdmin):
 @admin.register(IterFaceCase)
 class InterFaceCaseAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'interface']
+
