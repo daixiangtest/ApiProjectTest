@@ -39,7 +39,7 @@ class IterFaceCase(models.Model):
                                        blank=True)
 
     def __str__(self):
-        return self.file
+        return self.title
 
     class Meta:
         db_table = 'IterFaceCase'
