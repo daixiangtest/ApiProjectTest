@@ -27,6 +27,7 @@ urlpatterns = [
     path('api/users/token/verify/', TokenVerifyView.as_view(), name='token_verify'),  # 校验token
     re_path(r'^api/testPro/', include('Testproject.urls')),
     re_path(r'^api/TestInterFace/', include('TestInterface.urls')),
-    re_path(r'^api/testFlow/', include('Scenes.urls'))
+    re_path(r'^api/testFlow/', include('Scenes.urls')),
+    re_path(r'^api/testTask/', include('TestTask.urls'))
 
 ]
