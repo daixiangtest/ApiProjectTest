@@ -39,7 +39,7 @@ class TestRecord(models.Model):
     create_time = models.DateTimeField(auto_created=True, verbose_name='执行时间', help_text='执行时间')
 
     def __str__(self):
-        return self.id
+        return self.status
 
     class Meta:
         db_table = 'TestRecord'
@@ -47,11 +47,14 @@ class TestRecord(models.Model):
 
 
 class TestReport(models.Model):
+    """
+    测试报告表模型类
+    """
     info = models.JSONField(verbose_name='报告的数据', help_text='报告的数据', default=dict, blank=True)
     recode = models.ForeignKey(TestRecord, on_delete=models.CASCADE, verbose_name='测试记录', help_text='测试记录')
 
     def __str__(self):
-        return self.id
+        return self.recode.status
 
     class Meta:
         db_table = 'TestReport'

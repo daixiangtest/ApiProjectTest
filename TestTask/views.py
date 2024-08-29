@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from rest_framework import permissions
-from rest_framework.viewsets import ModelViewSet
+from rest_framework import permissions, mixins
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from .models import *
 from .serializer import *
 
@@ -16,3 +16,14 @@ class TestTaskView(ModelViewSet):
             return TestTaskGetSerializer
         else:
             return self.serializer_class
+
+
+class TestRecordView(mixins.ListModelMixin,
+                     GenericViewSet):
+    queryset = TestRecord.objects.all()
+    serializer_class = TestRecordSerializer
+
+
+class TestReportView(mixins.ListModelMixin, GenericViewSet):
+    queryset = TestReport.objects.all()
+    serializer_class = TestReportSerializer
