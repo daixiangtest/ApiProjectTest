@@ -1,7 +1,10 @@
+from ApiTestEngine.core2.cases import run_test
 from django.shortcuts import render
-from rest_framework import mixins, permissions
+from rest_framework import mixins, permissions, status
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
+
+from Testproject.models import TestEnv
 from .models import *
 from .serializer import *
 
@@ -73,3 +76,43 @@ class InterFaceCaseView(ModelViewSet):
             return IterFaceCaseGetSerializer
         else:
             return self.serializer_class
+
+    def run_cases(self, request):
+        """
+        运行接口测试用例
+        :param request: 请求数据
+        :return: 响应结果
+        """
+        # 获取接口的请求参数
+        env_id = request.data.get('env')
+        cases = request.data.get('cases')
+        if not all([env_id, cases]):
+            return Response({"error": "env与cases字段为必填参数"}, status=status.HTTP_400_BAD_REQUEST)
+        # 获取环境环境变量的值
+        env = TestEnv.objects.get(id=env_id)
+        print(env)
+        # print(cases)
+        # 组装请求的配置数据
+        env_config = {
+            "ENV": {
+                "host": env.host,
+                "headers": env.headers,
+                **env.global_variable,
+                **env.debug_global_variable
+            },
+            "DB": env.db,
+            "global_func": env.global_func
+        }
+        print(env_config)
+        # 组装请求的用例请求信息
+        cases_data = [
+            {
+                'name': '调试执行',
+                'Cases': [cases]
+            }
+        ]
+        result1, env1 = run_test(env_config=env_config, case_data=cases_data)
+        # 保存接口用例的环境变量到调试模式中
+        env.debug_global_variable = env1
+        env.save()
+        return Response(result1['results'][0]['cases'][0], status=status.HTTP_200_OK)
