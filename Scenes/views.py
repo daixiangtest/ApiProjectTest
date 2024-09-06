@@ -1,8 +1,11 @@
+from ApiTestEngine.core2.cases import run_test
 from django.shortcuts import render
 from rest_framework import mixins, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
+
+from Testproject.models import TestEnv
 from .models import *
 from .serializer import *
 
@@ -36,6 +39,49 @@ class ScenesToCaseView(mixins.CreateModelMixin,
             return ScenesToCaseListSerializer
         else:
             return self.serializer_class
+
+    def run_scene(self, request):
+        """
+        根据测试任务流的执行顺序来运行测试用例
+        :param request:
+        :return:
+        """
+        # 获取请求参数
+        env_id = request.data.get('env')
+        scene_id = request.data.get('scene')
+        if not all([env_id, scene_id]):
+            return Response({"error": "env与scene字段为必填参数"}, status=status.HTTP_400_BAD_REQUEST)
+        env = TestEnv.objects.get(id=env_id)
+        scene = TestScent.objects.get(id=scene_id)
+        # 根据env参数获取配置参数
+        env_config = {
+            "ENV": {
+                "host": env.host,
+                "headers": env.headers,
+                **env.global_variable
+            },
+            "DB": env.db,
+            "global_func": env.global_func
+        }
+        cases = scene.scenestocase_set.all()
+
+        res = SceneCaseReadSerializer(cases, many=True).data
+
+        datas = sorted(res, key=lambda x: x['sort'])
+
+        cases1 = []
+        for item in datas:
+            cases1.append(item['icase'])
+        # 执行的用例数据
+        case_data = [
+            {
+                "name": scene.name,
+                "Cases": [item['icase'] for item in datas]
+            }
+        ]
+        print(len(cases))
+        result = run_test(env_config=env_config, case_data=case_data)
+        return Response(result[0]['results'][0], status=status.HTTP_200_OK)
 
 
 class ScenesOrderView(APIView):

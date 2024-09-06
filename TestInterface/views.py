@@ -90,7 +90,6 @@ class InterFaceCaseView(ModelViewSet):
             return Response({"error": "env与cases字段为必填参数"}, status=status.HTTP_400_BAD_REQUEST)
         # 获取环境环境变量的值
         env = TestEnv.objects.get(id=env_id)
-        print(env)
         # print(cases)
         # 组装请求的配置数据
         env_config = {

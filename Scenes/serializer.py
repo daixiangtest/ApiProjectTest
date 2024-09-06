@@ -1,4 +1,4 @@
-from TestInterface.serializer import IterFaceCaseResSerializer
+from TestInterface.serializer import IterFaceCaseResSerializer, InterFaceResSerializer, IterFaceCaseGetSerializer
 from .models import *
 from rest_framework import serializers
 
@@ -34,3 +34,10 @@ class ScenesToCaseListSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class SceneCaseReadSerializer(serializers.ModelSerializer):
+    """测试业务流中所有的测试用例执行步骤序列化器"""
+    icase = IterFaceCaseGetSerializer()
+
+    class Meta:
+        model = ScenesToCase
+        fields = '__all__'
