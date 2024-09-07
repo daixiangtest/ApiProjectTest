@@ -3,6 +3,7 @@ from .views import *
 from rest_framework import routers
 
 urlpatterns = [
+    path('tasks/run/', TestTaskView.as_view({'post': 'run_task'}))
 
 ]
 route = routers.SimpleRouter()

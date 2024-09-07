@@ -36,7 +36,8 @@ class TestRecord(models.Model):
                                  blank=True)
     tester = models.CharField(max_length=50, verbose_name='执行者', help_text='执行者', blank=True)
     status = models.CharField(max_length=50, verbose_name='执行状态', help_text='执行状态')
-    create_time = models.DateTimeField(auto_created=True, verbose_name='执行时间', help_text='执行时间')
+    create_time = models.DateTimeField(auto_created=True, verbose_name='执行时间', help_text='执行时间',
+                                       auto_now_add=True)
 
     def __str__(self):
         return self.status

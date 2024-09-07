@@ -68,10 +68,9 @@ class ScenesToCaseView(mixins.CreateModelMixin,
         res = SceneCaseReadSerializer(cases, many=True).data
 
         datas = sorted(res, key=lambda x: x['sort'])
-
-        cases1 = []
-        for item in datas:
-            cases1.append(item['icase'])
+        # cases1 = []
+        # for item in datas:
+        #     cases1.append(item['icase'])
         # 执行的用例数据
         case_data = [
             {
