@@ -50,9 +50,10 @@ INSTALLED_APPS = [
     # 1.注册TWK 应用
     'rest_framework_simplejwt',
     # 1.注册drf 序列化器的过滤器,添加查询条件
-    'django_filters'
+    'django_filters',
+    # 1.注册celery应用实现执行任务的异步和定时任务处理（首次需要执行python manage.py migrate 生成数据库表格）
+    'django_celery_beat'
 ]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -174,4 +175,15 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# 配置文件下载的存放路径
 MEDIA_ROOT = BASE_DIR / 'files'
+
+# =========celery的配置============
+CELERY_TIMEZONE = 'Asia/Shanghai'
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+# 任务队列配置
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
+
+# setting中加上如下配置 可以直接省略后面的参数传递
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
