@@ -16,3 +16,6 @@ celery_app = Celery('taskDemo')
 celery_app.config_from_object('django.conf:settings', namespace='CELERY')
 # 自动从项目中获取tasks.py 文件中获取celery 任务
 celery_app.autodiscover_tasks()
+
+
+
