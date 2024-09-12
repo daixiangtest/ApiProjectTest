@@ -29,6 +29,7 @@ urlpatterns = [
     re_path(r'^api/TestInterFace/', include('TestInterface.urls')),
     re_path(r'^api/testFlow/', include('Scenes.urls')),
     re_path(r'^api/testTask/', include('TestTask.urls')),
-    re_path(r'^api/crontab/', include('Cronjob.urls'))
+    re_path(r'^api/crontab/', include('Cronjob.urls')),
+    re_path(r'^api/bug/', include('BugManage.urls'))
 
 ]

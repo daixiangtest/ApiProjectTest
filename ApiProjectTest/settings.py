@@ -52,9 +52,15 @@ INSTALLED_APPS = [
     # 1.注册drf 序列化器的过滤器,添加查询条件
     'django_filters',
     # 1.注册celery应用实现执行任务的异步和定时任务处理（首次需要执行python manage.py migrate 生成数据库表格）
-    'django_celery_beat'
+    'django_celery_beat',
+    # 添加跨域访问
+    'corsheaders'
 ]
 MIDDLEWARE = [
+    # 全局注册跨域请求
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -76,6 +82,10 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',),
 
 }
+# 针对所有IP都可以跨域访问
+CORS_ALLOW_ALL_ORIGINS = True
+# 允许跨域时携带cookies
+CORS_ALLOW_CREDENTIALS = True
 
 # 3、token配置
 from datetime import timedelta
