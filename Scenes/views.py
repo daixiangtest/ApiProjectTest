@@ -32,13 +32,32 @@ class ScenesToCaseView(mixins.CreateModelMixin,
                        GenericViewSet):
     queryset = ScenesToCase.objects.all()
     serializer_class = ScenesToCaseSerializer
-
+    filterset_fields = ['scene']
     # permission_classes = [permissions.IsAuthenticated]
     def get_serializer_class(self):
         if self.action == 'list':
             return ScenesToCaseListSerializer
         else:
             return self.serializer_class
+
+    def list(self, request, *args, **kwargs):
+        """
+        对用例执行列表进行排序后返回
+        :param request:
+        :param args:
+        :param kwargs: 
+        :return:
+        """
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        paginated_data = serializer.data
+        sorted_data = sorted(paginated_data, key=lambda x: x['sort'])
+        return Response(sorted_data)
 
     def run_scene(self, request):
         """

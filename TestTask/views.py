@@ -49,6 +49,7 @@ class TestTaskView(ModelViewSet):
 
 
 class TestRecordView(mixins.ListModelMixin,
+                     mixins.RetrieveModelMixin,
                      GenericViewSet):
     """
     测试执行记录的查询
@@ -71,7 +72,11 @@ class TestReportView(mixins.RetrieveModelMixin, GenericViewSet):
 
     # 自定义通过测试执行记录的id来查询对应的测试报告
     def retrieve(self, request, *args, **kwargs):
-        record = TestRecord.objects.get(id=kwargs['pk'])
-        report = TestReport.objects.get(recode=record)
-        serializer = self.get_serializer(report)
-        return Response(serializer.data)
+        print(kwargs['pk'])
+        try:
+            record = TestRecord.objects.get(id=kwargs['pk'])
+            report = TestReport.objects.get(recode=record)
+            serializer = self.get_serializer(report)
+            return Response(serializer.data)
+        except Exception:
+            return Response({"code":"error","msg":"查询报告失败未查询到该测试报告"},status=status.HTTP_400_BAD_REQUEST)
