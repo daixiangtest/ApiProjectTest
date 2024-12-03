@@ -50,16 +50,41 @@ def run_task(env_id, task_id, username):
     # 运行测试前创建一个运行记录
     record = TestRecord.objects.create(task=task, env=env, tester=username, status='执行中')
     # 运行测试任务
-    result = run_test(env_config=env_config, case_data=case_data, debug=False)[0]
+    try:
+        result = run_test(env_config=env_config, case_data=case_data, debug=False)
+        print("res:",result)
+        record.all = result['all']
+        record.success = result['success']
+        record.fail = result['fail']
+        record.error = result['error']
+        record.pass_rate = '{:.2f}'.format(result['success'] / result['all'])
+        record.status = '执行结束'
+        record.save()
+        # 保存测试报告
+        TestReport.objects.create(info=result, recode=record).save()
+        return result
+    except Exception as e:
+
+        # record.all = result['all']
+        # record.success = result['success']
+        # record.fail = result['fail']
+        # record.error = result['error']
+        # record.pass_rate = '{:.2f}'.format(result['success'] / result['all'])
+        record.status = '执行失败'
+        record.save()
+        raise e
+        # TestReport.objects.create(info={"error":e}, recode=record).save()
     # 更新测试报告
-    record.all = result['all']
-    record.success = result['success']
-    record.fail = result['fail']
-    record.error = result['error']
-    record.pass_rate = '{:.2f}'.format(result['success'] / result['all'])
-    record.status = '执行结束'
-    record.save()
-    # 保存测试报告
-    TestReport.objects.create(info=result, recode=record).save()
-    print(result)
-    return result
+    # print("报告结果：",result)
+    # record.all = result['all']
+    # record.success = result['success']
+    # record.fail = result['fail']
+    # record.error = result['error']
+    # record.pass_rate = '{:.2f}'.format(result['success'] / result['all'])
+    # record.status = '执行结束'
+    # record.save()
+    # # 保存测试报告
+    # TestReport.objects.create(info=result, recode=record).save()
+    # print("*********"*20)
+    # print(result)
+

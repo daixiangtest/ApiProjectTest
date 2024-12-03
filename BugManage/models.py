@@ -1,13 +1,14 @@
 from django.db import models
 
 from TestInterface.models import IterFace
-
+from Testproject.models import TestProject
 
 # Create your models here.
 class BugManage(models.Model):
     """
     bug信息管理表格数据模型
     """
+    project=models.ForeignKey(TestProject, on_delete=models.CASCADE,help_text='关联的项目',verbose_name='关联的项目')
     interface = models.ForeignKey(IterFace, on_delete=models.CASCADE, help_text='关联用例', verbose_name='关联用例')
     create_time = models.DateTimeField(auto_now_add=True, help_text="提交时间", verbose_name="提交时间")
     status = models.CharField(max_length=10, help_text='bug的状态', verbose_name='bug的状态')

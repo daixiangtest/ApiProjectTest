@@ -20,7 +20,7 @@ class BugManageView(mixins.CreateModelMixin,
     queryset = BugManage.objects.all()
     serializer_class = BugManageSerializer
     permission_classes = [permissions.IsAuthenticated]
-
+    filterset_fields = ['project']
     def get_serializer_class(self):
         if self.action == 'retrieve':
             return BugManageRetrieveSerializer

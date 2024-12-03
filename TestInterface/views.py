@@ -102,7 +102,7 @@ class InterFaceCaseView(ModelViewSet):
             "DB": env.db,
             "global_func": env.global_func
         }
-        print(env_config)
+        # print(env_config)
         # 组装请求的用例请求信息
         cases_data = [
             {
@@ -114,4 +114,5 @@ class InterFaceCaseView(ModelViewSet):
         # 保存接口用例的环境变量到调试模式中
         env.debug_global_variable = env1
         env.save()
+        print(result1)
         return Response(result1['results'][0]['cases'][0], status=status.HTTP_200_OK)
