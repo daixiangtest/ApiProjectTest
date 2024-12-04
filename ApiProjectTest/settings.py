@@ -135,17 +135,26 @@ WSGI_APPLICATION = 'ApiProjectTest.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 # 配置数据库链接MySQL
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'test003',
+#         'USER': 'root',
+#         'PASSWORD': '123456',
+#         'PORT': 3306,
+#         'HOST': '127.0.0.1'
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test003',
+        'NAME': 'test',
         'USER': 'root',
-        'PASSWORD': '123456',
+        'PASSWORD': 'Dx3826729',
         'PORT': 3306,
-        'HOST': '127.0.0.1'
+        'HOST': '115.120.244.181'
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -193,7 +202,8 @@ CELERY_TIMEZONE = 'Asia/Shanghai'
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 # 任务队列配置
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
+CELERY_BROKER_URL= "redis://115.120.244.181:6379/1"
+# CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
 
 # setting中加上如下配置 可以直接省略后面的参数传递
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
