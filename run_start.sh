@@ -1,5 +1,5 @@
 #收集静态文件
-python3 manage.py collectstatic
+#python3 manage.py collectstatic
 # 启动Django服务
 python3 manage.py runserver
 # 运行celery 服务
