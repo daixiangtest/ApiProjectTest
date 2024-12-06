@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 # Create your models here.
 class TestProject(models.Model):
@@ -17,6 +17,22 @@ class TestProject(models.Model):
         db_table = 'TestProject'
         verbose_name = '测试项目表'
 
+
+# class TestProjectDemo(models.Model):
+#     """
+#     创建测试项目表测试
+#     """
+#     user=models.ForeignKey(User,on_delete=models.CASCADE)
+#     name = models.CharField(max_length=50, verbose_name='项目名称', help_text='项目名称')
+#     leader = models.CharField(max_length=50, verbose_name='负责人', help_text='负责人')
+#     create_time = models.TimeField(auto_now_add=True, verbose_name='创建时间', help_text='创建时间')
+#
+#     def __str__(self):
+#         return self.name
+#
+#     class Meta:
+#         db_table = 'TestProject'
+#         verbose_name = '测试项目表'
 
 class TestEnv(models.Model):
     """
